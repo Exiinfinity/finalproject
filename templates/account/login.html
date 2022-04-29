@@ -1,0 +1,105 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load account socialaccount %}
+
+{% load static %}
+
+<!--한글 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Gamja+Flower&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+
+<div style="text-align: center; margin-top: 40%; font-family: 'Noto Sans KR', sans-serif; font-size: 13pt;">
+    
+<a href="{% url 'main' %}">
+    <img src="{% static 'img/website_logo.png' %}" style="width: 70%; margin-bottom: 10%;">
+</a>
+
+{% trans "" %}
+
+<div style="border-width: 2%;">
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+{% if redirect_field_value %}
+
+<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+
+{% endif %}
+
+
+
+<button type="submit"
+
+style=
+"width: 95%;
+height: 3em;
+margin: 0;
+color: #fff;
+background: #1FB264;
+border: none;
+padding: 10px;
+border-radius: 4px;
+border-bottom: 4px solid #15824B;
+transition: all .2s ease;
+outline: none;
+text-transform: uppercase;
+font-size: 12pt;
+font-weight: 700;">
+{% trans "로그인" %}</button>
+
+<a class="button secondaryAction" href="{% url 'account_reset_password' %}" style="font-family: 'Noto Sans KR', sans-serif;">{% trans "비밀번호를 잊어버리셨나요?" %}</a>
+
+<div class="socialaccount_ballot">
+
+<ul class="socialaccount_providers">  
+{% include "socialaccount/snippets/provider_list.html" with process="login" %}   
+</ul>
+    
+<div class="login-or">{% trans '' %}</div>   
+</div>
+
+
+<div style="margin-bottom: 8%;">
+
+    <p>{% blocktrans %}계정이 없으시다면,
+    
+    <a href="{{ signup_url }}">회원가입</a>을 먼저해주세요.{% endblocktrans %}</p>
+    
+</div>
+
+<div>
+    <a role="button" href="{% provider_login_url 'kakao' %}">
+        login in with kakao
+    </a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}

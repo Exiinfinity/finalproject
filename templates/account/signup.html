@@ -1,0 +1,52 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<style>
+  .registerbutton {
+      background-color: #04AA6D;
+      border-radius: 5pt;
+      width: 75%;
+      height: 3em;
+      font-size: 12pt;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;  
+  }
+  .font {
+      margin-bottom: 10%;
+      font-size: 23pt;
+      font-weight: bold;
+  }
+</style>
+
+<a href="{% url 'main' %}" style="margin-left: 15%;"><img src="{% static 'img/website_logo.png' %}" style="width: 70%; margin-bottom: 10%;"></a>
+
+<!-- <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p> -->
+<div style="text-align: center;">
+  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    {% for field in form %}
+            <div class ="form-group">
+                <label for = "{{ field.id_for_label }}">{{field.label}}</label>
+                <input type = "{{ field.field.widget.input_type }}" class ="form-control" id ="{{field.id_for_label}}" 
+                placeholder = "입력해주세요" name = "{{field.name}}" style="margin-bottom: 5%;">
+            </div>
+            
+            {% if field.errors %}
+            <span style = "color:red">모든 정보를 입력해주세요.</span>
+            {% endif %}
+            {% endfor %}
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button type="submit" class="registerbutton">{% trans "가입하기" %}</button>
+  </form>
+</div>
+
+
+{% endblock %}

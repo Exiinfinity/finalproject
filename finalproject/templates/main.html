@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +10,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     
 	<!-- 기존 css -->
-    <link rel="stylesheet" type="text/css" href = "/css/plantrecog.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/plantrecog.css' %}">
     <title>Home</title>
+
+	<!--한글 폰트 -->
+	<link rel="preconnect" href="https://fonts.googleapis.com"> 
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+	<link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Gamja+Flower&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
 
 	<!-- 상단바 링크 -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,16 +27,18 @@
 			text-align: center;
 		}
 		.txt {
-			margin-right: 32%;
+			margin-right: 13%;
 		}
-		.rain {
+		.myplant {
 			width: 100%;
 			text-align: center;
 			justify-content: center;
 			display: inline-block;
-			border: 0.5px solid;
+			/* border: 0.5px solid; */
 			border-radius: 5pt;
-			margin-bottom: 5%;
+			margin-bottom: 3%;
+			background-color:#f9f9f9;
+			
 		}
 		.img{
 			width: 7%;
@@ -38,11 +46,11 @@
 		}
 
 		div {
-			font-family: Arial, Helvetica, sans-serif;
+			font-family: 'Noto Sans KR', sans-serif;
 		}
 
 		body {
-			font-size: 14.5pt;
+			font-size: 13pt;
 		}
 
 		/* 상단바 css */
@@ -69,6 +77,22 @@
 
 		.active {
 		background-color: #04AA6D; /* Add an active/current color */
+		}
+
+		.login{
+			background-color:#04AA6D;
+			border-radius: 5pt;
+			color: cornsilk;
+			width: 25%;
+			font-size: 9pt;
+		}
+
+		.logout{
+			background-color:#04AA6D;
+			border-radius: 5pt;
+			color: cornsilk;
+			width: 25%;
+			font-size: 9pt;
 		}
 		
     </style>
@@ -117,24 +141,36 @@
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
 <div class="file-upload" style= "max-width: 100%;">
-	<div style="border-radius: 5pt; background-color:lightgrey;">
-		<div style="margin-left: 3%;">2022년 4월 16일</div>
-		<br>
-		<text style="padding-left: 2%;">온도</text> <text class="txt" style="font-weight: bold;">14'c</text> <text>날씨 </text><text style="font-weight: bold;">강한 돌풍</text>
-		<img src="img/cloudy.png" class="img">
+	<a href="{% url 'main' %}" style="margin-left: 3%; margin-right: 15%;">
+		<img src="{% static 'img/website_logo.png' %}" style="width: 55%; margin-bottom: 10%;">
+	</a>
+
+	<!-- 로그인, 로그아웃 버튼 바뀌게하기! -->
+	{% if not user.is_authenticated %}
+	<button onclick="location.href='{% url 'account_login' %}'" class="login">로그인</button>
+	{% else %}
+	<button onclick="location.href='{% url 'account_logout' %}'" class="logout">로그아웃</button>
+	{% endif %}	 
+	
+	<div style="border-radius: 5pt; background-color: #f4f4f4; padding: 4%;">
+		<div>
+			<div style="margin-left: 3%; float: left; margin-right: 17%;">2022년 4월 16일</div>
+		</div>
+
+		<br><br>
+		<text style="margin-left: 3%;">온도</text> <text class="txt" style="font-weight: bold;">14'c</text> <text>날씨 </text><text style="font-weight: bold;">강한 돌풍</text>
+		<img src="{% static 'img/cloudy.png' %}" class="img">
 	</div>
 	<br>
-	<div class="rain">
+	<div class="myplant">
 		<br>
 		<text>자외선지수</text> <text>매우 높음</text>
 		<br><br>
-		<text>강수확률</text> <text>20%</text>
-		<br><br>
 	</div>
 
-	<br>
+	<br><br>
 
-	<div class="rain">
+	<div class="myplant">
 		<div>
 			<text>11시</text>
 			<text>12시</text>
@@ -145,16 +181,25 @@
 
 	</div>
 
-	<br>
-
-	<div class="rain">
-		<div style=" margin-top: 2%; margin-left: 5%; font-size: 18pt;">나의 식물</div>
-		<a>
-			<img src="img/sansevieria.jpg" style="width: 35%; background-color: antiquewhite; border-radius: 50%;  margin: 5%;">
-		</a>	
-		<a style="font-size: 16pt;">산세베리아</a>
-		<button onclick="location.href='/bar/plantinfo.html'" style="border-radius: 5pt; background-color: lightgray; margin-bottom: 4.8%;">나의 식물 관리</button>
+	<br><br>
+	<!-- 내식물 관리하기 회원 비회원 기능 구분 -->
+	{% if not user.is_authenticated %}
+	<div class="myplant" style="padding: 4%; font-family: 'Noto Sans KR', sans-serif;">
+		<div onclick="location.href='{% url 'account_login' %}'"  style=" margin-top: 2%; margin-left: 2%; font-size: 16pt;">
+			<i class="fa fa-plus"></i>
+		</div>
 	</div>
+
+	{% else %}
+	<div class="myplant" style="padding: 4%; font-family: 'Noto Sans KR', sans-serif;">
+		<div style=" margin-top: 2%; margin-left: 5%; font-size: 16pt;">나의 식물</div>
+		<a>
+			<img src="{% static 'img/sansevieria.jpg' %}" style="width: 37%; background-color: antiquewhite; border-radius: 50%;  margin: 5%;">
+		</a>	
+		<a style="font-size: 14pt;">산세베리아</a>
+		<button onclick="location.href='{% url 'plantinfo' %}'" style="border-radius: 5pt; background-color: #04AA6D; color: cornsilk;">나의 식물 관리</button>
+	</div>
+	{% endif %}	 
 
   <div class="file-upload-content">
     <img class="file-upload-image" src="#" alt="your image" />
@@ -165,18 +210,16 @@
   </div>
   <br>
 
-
+<!-- <a href="/"><main></main></a> -->
 </div>
 
 <div class="icon-bar">
-	<a class="active" href="main.html"><i class="fa fa-home"></i></a> 
-	<a href="bar/plantrecog.html"><i class="fa fa-pagelines"></i></a> 
-	<a href="bar/plantdisease.html"><i class="fa fa-hospital-o"></i></a> 
-	<a href="bar/search.html"><i class="fa fa-search"></i></a>
+	<a class="active" href="{% url 'main' %}"><i class="fa fa-home"></i></a> 
+	<a href="{% url 'plantrecog' %}"><i class="fa fa-pagelines"></i></a> 
+	<a href="{% url 'plantdisease' %}"><i class="fa fa-hospital-o"></i></a> 
+	<a href="{% url 'search' %}"><i class="fa fa-search"></i></a>
 	<!-- <a href="#"><i class="fa fa-trash"></i></a>  -->
   </div>
-
-
 
 </body>
 
