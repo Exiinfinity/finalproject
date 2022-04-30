@@ -24,7 +24,7 @@ urlpatterns = [
     path('users/', include('users.urls')), # users>urls.py에서 관리할거야
     path('', home),
     path('register/', register),
-    path('main/', views.main, name="main"),
+    path('main/', include('weather_app.urls')),
     path('plantinfo/', views.plantinfo, name="plantinfo"),
     path('plantmanage/', views.plantmanage, name="plantmanage"),
     path('plantrecog/', views.plantrecog, name="plantrecog"),

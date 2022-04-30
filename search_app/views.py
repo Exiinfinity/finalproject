@@ -30,5 +30,3 @@ def info(request):
     _id = request.GET.get("id")
     q = Plants.objects.get(plantid=int(_id))
     return render(request, 'search_app/info.html', {"data": q})
-
-
