@@ -11,8 +11,25 @@
 {% block content %}
 <style>
     input {
-        background-color: antiquewhite; 
-        height: 10vh;
+        height: 5vh;
+        width: 65%;
+    }
+
+    .login_button {
+        width: 70%;
+        height: 3em;
+        margin: 0;
+        color: #fff;
+        background: #1FB264;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #15824B;
+        transition: all .2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-size: 12pt;
+        font-weight: 700;
     }
 
 </style>
@@ -20,7 +37,7 @@
 <div style="text-align: center; margin-top: 40%; font-family: 'Noto Sans KR', sans-serif; font-size: 13pt;">
     
 <a href="{% url 'main' %}">
-    <img src="{% static 'img/website_logo.png' %}" style="width: 80%; margin-bottom: 10%;">
+    <img src="{% static 'img/website_logo.png' %}" style="width: 60%; margin-bottom: 10%;">
 </a>
 
 {% trans "" %}
@@ -51,35 +68,21 @@
     <input type="password" name="password" placeholder="비밀번호" autocomplete="current-password" required="" id="id_password">
 </p>
 
-<p>
+<!-- <p>
     <label for="id_remember">Remember Me:</label>
     <input type="checkbox" name="remember" id="id_remember">
-</p>
+</p> -->
 {% if redirect_field_value %}
 
 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 
 {% endif %}
 
-<button type="submit"
+<button type="submit" class="login_button">
+    {% trans "로그인" %}
+</button>
 
-style=
-"width: 95%;
-height: 3em;
-margin: 0;
-color: #fff;
-background: #1FB264;
-border: none;
-padding: 10px;
-border-radius: 4px;
-border-bottom: 4px solid #15824B;
-transition: all .2s ease;
-outline: none;
-text-transform: uppercase;
-font-size: 12pt;
-font-weight: 700;">
-{% trans "로그인" %}</button>
-
+<br><br>
 <a class="button secondaryAction" href="{% url 'account_reset_password' %}" style="font-family: 'Noto Sans KR', sans-serif;">{% trans "비밀번호를 잊어버리셨나요?" %}</a>
 
 <div class="socialaccount_ballot">
@@ -100,12 +103,13 @@ font-weight: 700;">
     
 </div>
 
-<div>
-    <a role="button" href="{% provider_login_url 'kakao' %}">
-        login in with kakao
+<button class="login_button" >
+
+    <a href="{% provider_login_url 'kakao' %}">
+        카카오로 로그인
     </a>
 
-</div>
+</button>
 
 </form>
 

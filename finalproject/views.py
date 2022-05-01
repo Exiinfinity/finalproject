@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from matplotlib.style import context
 def home(request):
     context={
     }

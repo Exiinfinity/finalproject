@@ -230,6 +230,16 @@
 		.weather {
 			float: left;
 			margin-right: 7%;
+			font-weight: bold;
+		}
+		span {
+			float: left;
+			margin-right: 5%;
+		}
+
+		b {
+			float: left;
+			margin-right: 1%;
 		}
 		
     </style>
@@ -250,44 +260,34 @@
 	{% else %}
 	<button onclick="location.href='{% url 'account_logout' %}'" class="logout">로그아웃</button>
 	{% endif %}	 
-	
-	<div style="border-radius: 5pt; background-color: #f4f4f4; padding: 4%;">
-		<div>
-			<div style="margin-left: 3%; float: left; margin-right: 17%;">2022년 4월 16일</div>
-		</div>
 
-		<br><br>
-		<text style="margin-left: 3%;">온도</text> <text class="txt" style="font-weight: bold;">14'c</text> <text>날씨 </text><text style="font-weight: bold;">강한 돌풍</text>
-		<img src="{% static 'img/cloudy.png' %}" class="img">
-	</div>
-
-	<div style="border-radius: 5pt; background-color: #f4f4f4; padding: 4%;">
-		<div id="userloc"></div>
-		<div class="weather">
-			<div id="temp"></div>
-		</div>
-		
-		<div class="weather">
-			날씨<div id="condi"></div>
-		</div>
-		
-		<div class="weather">
-			습도<div id="humidity"></div>
-		</div>
+	<div style="border-radius: 5pt; background-color: #f4f4f4; height: 16vh; padding:4%">
+		<div id="userloc" style="font-weight: bold;"></div>
 		<br>
-		<div id="uv"></div>
-		<div id="foreTemp"></div>
-	</div>
+		<div class="weather" style="mar">온도</div>
+		<div id="temp" class="weather" style="margin-right:8.2%;"></div>
 
+		<div class="weather">날씨</div>
+		<div id="condi" class="weather"></div>	
+	</div>
 
 	<br>
 
 	<div class="myplant">
+		<div style="margin-left: 30%;">
+			<div class="weather" style="margin-left: 15%;">습도</div>
+			<div id="humidity" class="weather"></div>
+			<br>
+	
+			<div class="weather">자외선 지수</div>
+			<div id="uv" class="weather"></div>			
+		</div>
 
+		
 	</div>
 
 	<br><br>
-
+	<div id="foreTemp" class="myplant"></div>
 
 
 	<!-- 내식물 관리하기 회원 비회원 기능 구분 -->
@@ -327,7 +327,7 @@
 	<a href="{% url 'plantdisease' %}"><i class="fa fa-hospital-o"></i></a> 
 	<a href="{% url 'search' %}"><i class="fa fa-search"></i></a>
 	<!-- <a href="#"><i class="fa fa-trash"></i></a>  -->
-  </div>
+</div>
 
 </body>
 
