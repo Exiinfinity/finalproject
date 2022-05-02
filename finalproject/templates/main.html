@@ -25,127 +25,127 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
 	<script>
-	// 날씨 관련 script
-	function getLoc() {
-			// 사용자 위치
-            var userLoc = document.getElementById("userloc")
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(getPos, getErr)
-            } else {
-                userLoc.innerHTML = "지원되지 않는 브라우저입니다."
-            }
-        }
-        function getPos(pos) {
-            const lat = pos.coords.latitude
-            const lng = pos.coords.longitude
+		// 날씨 관련 script
+		function getLoc() {
+				// 사용자 위치
+				var userLoc = document.getElementById("userloc")
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(getPos, getErr)
+				} else {
+					userLoc.innerHTML = "지원되지 않는 브라우저입니다."
+				}
+			}
+			function getPos(pos) {
+				const lat = pos.coords.latitude
+				const lng = pos.coords.longitude
 
-            $.ajax({
-                url: "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + lng + "&y=" + lat,
-                type: "GET",
-                headers: {
-                    "Authorization" : "KakaoAK 0a04a8468406a22d0281480d598e655e"
-                },
-                success: function(data) {
-                    var addrS = data.documents[0].address.address_name.split(" ")
-                    if (addrS[0] == "서울") {
-                        var addr = "서울특별시"
-                    } else if (addrS[1].substr(-1) == "시" | addrS[1].substr(-1) == "군") {
-                        var addr = addrS[1]
-                    } else {
-                        var addr = addrS[0] + "광역시"
-                    }
-                    const userLoc = document.getElementById("userloc")
-					// 사용자 위치 어딘지 
-                    userLoc.innerHTML = addr
-                    if (addr) {
-						// 현재 날씨
-                        const con = document.getElementById("condi")
-						// 현재 온도
-                        const tem = document.getElementById("temp")
-                        const humid = document.getElementById("humidity")
-						const uV = document.getElementById("uv")
-                        const fore = document.getElementById("foreTemp")
-                        $.ajax({
-                            url: "weather/?loc=" + addr,
-                            type: "GET",
-                            success: function(data) {
-                                con.innerHTML = data[0].condi
-                                tem.innerHTML = data[0].temp + "°C"
-                                humid.innerHTML = data[0].humidity + "%"
-								uV.innerHTML = data[0].uv
-                                for (i=0; i<24; i++) {
-                                    var sp = document.createElement("span")
-                                    var b1 = document.createElement("b")
-                                    var b2 = document.createElement("b")
-                                    b1.innerHTML = data[i].time + "시"
-                                    b2.innerHTML = data[i].temp + "°C"
-                                    sp.append(b1,b2)
-                                    fore.appendChild(sp)
-                                }
-                            },
-                            error: function(e) {
-                                console.log(e)
-                                }
-                            })
-                        }
-                },
-                error: function(e) {
-                    console.log(e)
-                }
-            }
-        )}
-        function getErr(error) {
-            var userLoc = document.getElementById("userloc")
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    userLoc.innerHTML = "위치 정보 권한 없음"
-                    break
-                case error.POSITION_UNAVAILABLE:
-                    userLoc.innerHTML = "위치 정보를 나타낼 수 없음"
-                    break
-                case error.TIMEOUT:
-                    userLoc.innerHTML = "위치 정보 요청 시간 초과"
-                    break
-                case error.UNKNOWN_ERROR:
-                    userLoc.innerHTML = "알 수 없는 오류 발생"
-                    break
-            }
-        }
-        getLoc()
+				$.ajax({
+					url: "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + lng + "&y=" + lat,
+					type: "GET",
+					headers: {
+						"Authorization" : "KakaoAK 0a04a8468406a22d0281480d598e655e"
+					},
+					success: function(data) {
+						var addrS = data.documents[0].address.address_name.split(" ")
+						if (addrS[0] == "서울") {
+							var addr = "서울특별시"
+						} else if (addrS[1].substr(-1) == "시" | addrS[1].substr(-1) == "군") {
+							var addr = addrS[1]
+						} else {
+							var addr = addrS[0] + "광역시"
+						}
+						const userLoc = document.getElementById("userloc")
+						// 사용자 위치 어딘지 
+						userLoc.innerHTML = addr
+						if (addr) {
+							// 현재 날씨
+							const con = document.getElementById("condi")
+							// 현재 온도
+							const tem = document.getElementById("temp")
+							const humid = document.getElementById("humidity")
+							const uV = document.getElementById("uv")
+							const fore = document.getElementById("foreTemp")
+							$.ajax({
+								url: "weather/?loc=" + addr,
+								type: "GET",
+								success: function(data) {
+									con.innerHTML = data[0].condi
+									tem.innerHTML = data[0].temp + "°C"
+									humid.innerHTML = data[0].humidity + "%"
+									uV.innerHTML = data[0].uv
+									for (i=0; i<24; i++) {
+										var sp = document.createElement("span")
+										var b1 = document.createElement("b")
+										var b2 = document.createElement("b")
+										b1.innerHTML = data[i].time + "시"
+										b2.innerHTML = data[i].temp + "°C"
+										sp.append(b1,b2)
+										fore.appendChild(sp)
+									}
+								},
+								error: function(e) {
+									console.log(e)
+									}
+								})
+							}
+					},
+					error: function(e) {
+						console.log(e)
+					}
+				}
+			)}
+			function getErr(error) {
+				var userLoc = document.getElementById("userloc")
+				switch(error.code) {
+					case error.PERMISSION_DENIED:
+						userLoc.innerHTML = "위치 정보 권한 없음"
+						break
+					case error.POSITION_UNAVAILABLE:
+						userLoc.innerHTML = "위치 정보를 나타낼 수 없음"
+						break
+					case error.TIMEOUT:
+						userLoc.innerHTML = "위치 정보 요청 시간 초과"
+						break
+					case error.UNKNOWN_ERROR:
+						userLoc.innerHTML = "알 수 없는 오류 발생"
+						break
+				}
+			}
+			getLoc()
 
-	// 기존 script
-	function readURL(input) {
-    if (input.files && input.files[0]) {
+			// 기존 script
+			function readURL(input) {
+			if (input.files && input.files[0]) {
 
-    var reader = new FileReader();
+			var reader = new FileReader();
 
-    reader.onload = function(e) {
-      $('.image-upload-wrap').hide();
+			reader.onload = function(e) {
+			$('.image-upload-wrap').hide();
 
-      $('.file-upload-image').attr('src', e.target.result);
-      $('.file-upload-content').show();
+			$('.file-upload-image').attr('src', e.target.result);
+			$('.file-upload-content').show();
 
-      $('.image-title').html(input.files[0].name);
-    };
+			$('.image-title').html(input.files[0].name);
+			};
 
-    reader.readAsDataURL(input.files[0]);
+			reader.readAsDataURL(input.files[0]);
 
-    } else {
-        removeUpload();
-  }
-}
+			} else {
+				removeUpload();
+		}
+		}
 
-	function removeUpload() {
-  	$('.file-upload-input').replaceWith($('.file-upload-input').clone());
-  	$('.file-upload-content').hide();
-  	$('.image-upload-wrap').show();
-}
-	$('.image-upload-wrap').bind('dragover', function () {
-		$('.image-upload-wrap').addClass('image-dropping');
-	});
-	$('.image-upload-wrap').bind('dragleave', function () {
-		$('.image-upload-wrap').removeClass('image-dropping');
-});
+			function removeUpload() {
+			$('.file-upload-input').replaceWith($('.file-upload-input').clone());
+			$('.file-upload-content').hide();
+			$('.image-upload-wrap').show();
+		}
+			$('.image-upload-wrap').bind('dragover', function () {
+				$('.image-upload-wrap').addClass('image-dropping');
+			});
+			$('.image-upload-wrap').bind('dragleave', function () {
+				$('.image-upload-wrap').removeClass('image-dropping');
+		});
 
 	</script>
 
@@ -170,7 +170,7 @@
 			border-radius: 5pt;
 			margin-bottom: 3%;
 			background-color:#f9f9f9;
-			
+			border:0.5px solid #ccc;
 		}
 		.img{
 			width: 7%;
@@ -232,102 +232,123 @@
 			margin-right: 7%;
 			font-weight: bold;
 		}
-		span {
-			float: left;
-			margin-right: 5%;
-		}
-
-		b {
-			float: left;
-			margin-right: 1%;
+		/* slidebar css */
+		*{margin:0; padding:0;}
+		ul {list-style:none;}
+		b {text-decoration:none; color:inherit; margin-right: 15%;}
+		
+		.box{max-width:960px; width:100%; height:67px; border:0.5px solid #ccc; margin:0 auto; border-radius: 5pt;}
+		#tab {
+			height: 65px;
 		}
 		
-    </style>
+		span {
+			height: 65px;
+			border-radius: 5pt;
+			white-space: pre-line;
+			width: 30%;
+		}
 
+		#tab ul{white-space:nowrap; 
+			overflow-x: auto; text-align:center; background:#f9f9f9; }
+		#tab ul span{display:inline-block; padding: 5px 5px; background:#f9f9f9; margin-right:10px;}
+
+    </style>
 </head>
 
 <body>
+	<div class="file-upload" style= "max-width: 100%;">
+		<a href="{% url 'main' %}" style="margin-left: 3%; margin-right: 15%;">
+			<img src="{% static 'img/website_logo.png' %}" style="width: 55%; margin-bottom: 10%;">
+		</a>
 
+		<!-- 로그인, 로그아웃 버튼 바뀌게하기! -->
+		{% if not user.is_authenticated %}
+		<button onclick="location.href='{% url 'account_login' %}'" class="login">로그인</button>
+		{% else %}
+		<button onclick="location.href='{% url 'account_logout' %}'" class="logout">로그아웃</button>
+		{% endif %}	 
 
-<div class="file-upload" style= "max-width: 100%;">
-	<a href="{% url 'main' %}" style="margin-left: 3%; margin-right: 15%;">
-		<img src="{% static 'img/website_logo.png' %}" style="width: 55%; margin-bottom: 10%;">
-	</a>
+		<div style="border-radius: 5pt; background-color: #f4f4f4; height: 16vh; padding:4%; border:0.5px solid #ccc;">
+			<div id="userloc" style="font-weight: bold;"></div>
+			<br>
+			<div class="weather">온도</div>
+			<div id="temp" class="weather" style="margin-right:8%;"></div>
 
-	<!-- 로그인, 로그아웃 버튼 바뀌게하기! -->
-	{% if not user.is_authenticated %}
-	<button onclick="location.href='{% url 'account_login' %}'" class="login">로그인</button>
-	{% else %}
-	<button onclick="location.href='{% url 'account_logout' %}'" class="logout">로그아웃</button>
+			<div class="weather">날씨</div>
+			<div id="condi" class="weather"></div>	
+		</div>
+
+		<br>
+
+		<div class="myplant">
+			<div style="margin-left: 30%;">
+				<div class="weather" style="margin-left: 15%;">습도</div>
+				<div id="humidity" class="weather"></div>
+				<br>
+		
+				<div class="weather">자외선 지수</div>
+				<div id="uv" class="weather"></div>			
+			</div>		
+		</div>
+
+		<br><br>
+		<div class="box">
+			<div id="tab">
+				<ul id="foreTemp"></ul>
+			</div>		
+		</div>
+
+		<br>
+		
+		<!-- 내식물 관리하기 회원 비회원 기능 구분 -->
+		{% if not user.is_authenticated %}
+		<div class="myplant" style="padding: 5%; font-family: 'Noto Sans KR', sans-serif; background-color: #f4f4f4;">
+			<div onclick="location.href='{% url 'account_login' %}'"  style=" margin-top: 2%; margin-left: 2%; font-size: 16pt;">
+				<img src="{% static 'img/plant_cute.jpeg' %}" style="width: 32%; margin-bottom: 5%;">
+				<div style="font-size: 13pt; font-weight: bold;">식물을 추가해주세요</div>
+				<i class="fa fa-plus-circle" aria-hidden="true"></i>
+			</div>
+		</div>
+
+		{% else %}
+		<div class="myplant" 
+			onclick="location.href='{% url 'plantinfo' %}'"
+			style="padding: 5%; font-family: 'Noto Sans KR', sans-serif;
+				/* 투명도 css */
+		         opacity : 0.6;
+                 filter: alpha(opacity=60);
+                 -moz-opacity:0.6;
+                 -khtml-opacity: 0.6;
+		">
+			<div style=" font-size: 17pt; float: left; margin-right: 30%;font-weight: bold; margin-left: 1%;">물주기</div>
+			<button style="border-radius: 5pt; background-color: #04AA6D; color: cornsilk; padding: 2%;">나의 식물 관리</button>
+			<a style="float: left; font-weight: bold; font-size: 14pt;">
+				<img src="{% static 'img/sansevieria.jpg' %}" style="width: 37%; border-radius: 50%;  margin: 5%; ">
+				산세베리아
+				D+1
+			</a>	
+			<a style="font-size: 14pt;"></a>
+		</div>
 	{% endif %}	 
 
-	<div style="border-radius: 5pt; background-color: #f4f4f4; height: 16vh; padding:4%">
-		<div id="userloc" style="font-weight: bold;"></div>
-		<br>
-		<div class="weather" style="mar">온도</div>
-		<div id="temp" class="weather" style="margin-right:8.2%;"></div>
+	<div class="file-upload-content">
+		<img class="file-upload-image" src="#" alt="your image" />
+		<div class="image-title-wrap">
+		<button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+		</div>
 
-		<div class="weather">날씨</div>
-		<div id="condi" class="weather"></div>	
 	</div>
-
 	<br>
 
-	<div class="myplant">
-		<div style="margin-left: 30%;">
-			<div class="weather" style="margin-left: 15%;">습도</div>
-			<div id="humidity" class="weather"></div>
-			<br>
-	
-			<div class="weather">자외선 지수</div>
-			<div id="uv" class="weather"></div>			
-		</div>
-
-		
 	</div>
 
-	<br><br>
-	<div id="foreTemp" class="myplant"></div>
-
-
-	<!-- 내식물 관리하기 회원 비회원 기능 구분 -->
-	{% if not user.is_authenticated %}
-	<div class="myplant" style="padding: 4%; font-family: 'Noto Sans KR', sans-serif;">
-		<div onclick="location.href='{% url 'account_login' %}'"  style=" margin-top: 2%; margin-left: 2%; font-size: 16pt;">
-			<i class="fa fa-plus"></i>
-		</div>
+	<div class="icon-bar">
+		<a class="active" href="{% url 'main' %}"><i class="fa fa-home"></i></a> 
+		<a href="{% url 'plantrecog' %}"><i class="fa fa-pagelines"></i></a> 
+		<a href="{% url 'plantdisease' %}"><i class="fa fa-medkit" aria-hidden="true"></i></a> 
+		<a href="{% url 'search' %}"><i class="fa fa-search"></i></a>
 	</div>
-
-	{% else %}
-	<div class="myplant" style="padding: 4%; font-family: 'Noto Sans KR', sans-serif;">
-		<div style=" margin-top: 2%; margin-left: 5%; font-size: 16pt;">나의 식물</div>
-		<a>
-			<img src="{% static 'img/sansevieria.jpg' %}" style="width: 37%; background-color: antiquewhite; border-radius: 50%;  margin: 5%;">
-		</a>	
-		<a style="font-size: 14pt;">산세베리아</a>
-		<button onclick="location.href='{% url 'plantinfo' %}'" style="border-radius: 5pt; background-color: #04AA6D; color: cornsilk;">나의 식물 관리</button>
-	</div>
-	{% endif %}	 
-
-  <div class="file-upload-content">
-    <img class="file-upload-image" src="#" alt="your image" />
-    <div class="image-title-wrap">
-      <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-    </div>
-
-  </div>
-  <br>
-
-<!-- <a href="/"><main></main></a> -->
-</div>
-
-<div class="icon-bar">
-	<a class="active" href="{% url 'main' %}"><i class="fa fa-home"></i></a> 
-	<a href="{% url 'plantrecog' %}"><i class="fa fa-pagelines"></i></a> 
-	<a href="{% url 'plantdisease' %}"><i class="fa fa-hospital-o"></i></a> 
-	<a href="{% url 'search' %}"><i class="fa fa-search"></i></a>
-	<!-- <a href="#"><i class="fa fa-trash"></i></a>  -->
-</div>
 
 </body>
 

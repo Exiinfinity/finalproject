@@ -73,10 +73,8 @@
 
     reader.onload = function(e) {
       $('.image-upload-wrap').hide();
-
       $('.file-upload-image').attr('src', e.target.result);
       $('.file-upload-content').show();
-
       $('.image-title').html(input.files[0].name);
     };
 
@@ -110,10 +108,10 @@ $('.image-upload-wrap').bind('dragover', function () {
     <h1 style="text-align: center;">촬영으로 식물병 조회</h1>
     <br>
     <center>    
-    <img src="{% static 'img/plantdis.jpeg'%}" style="width: 78%; height: 13em; border-radius: 5pt;">
+    <img src="{% static 'img/plantreal.png'%}" style="width: 85%; height: 13em; border-radius: 5pt;">
     </center>
     <br>
-    <div style="text-align: center; font-size: 12pt;">식물의 이미지데이터를 분석해<br>
+    <div style="text-align: center; font-size: 13pt;">식물의 이미지데이터를 분석해<br>
         식물이 어떤 식물병에 걸렸는지 확인하고<br>해당정보를 제공받을 수 있어요.
     </div>
     <br>
@@ -142,7 +140,7 @@ $('.image-upload-wrap').bind('dragover', function () {
 <div class="icon-bar">
   <a href="{% url 'main' %}"><i class="fa fa-home"></i></a> 
   <a href="{% url 'plantrecog' %}"><i class="fa fa-pagelines"></i></a> 
-  <a href="{% url 'plantdisease' %}" ;  class="active" ><i class="fa fa-hospital-o"></i></a> 
+  <a href="{% url 'plantdisease' %}" class="active" ><i class="fa fa-medkit" aria-hidden="true"></i></a> 
   <a href="{% url 'search' %}"><i class="fa fa-search"></i></a>
 </div>
 </body>
