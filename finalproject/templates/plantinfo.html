@@ -110,7 +110,7 @@ $('.image-upload-wrap').bind('dragover', function () {
         <fieldset>
             <form action="/plantinfo/" method="post">
               {% csrf_token %}
-            
+    
                 <img src="{{o.plant.url}}" style="width: 35%; float: left; border-radius: 70%;">
                 <label style="font-size: 16pt; font-weight:bolder; color:rgb(74, 152, 113)">{{o.nickname}}</label>
                 <br>

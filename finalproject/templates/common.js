@@ -8,7 +8,6 @@ function login() {
     else {
         location.href = 'main.html';
     }
-
 }
 
 function back() {
